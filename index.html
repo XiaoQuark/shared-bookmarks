@@ -22,7 +22,24 @@
 		<main>
 			<p id="status-message" aria-live="polite">Please Select a User</p>
 
-			<section id="bookmark-form"></section>
+			<section id="bookmark-form">
+				<form action="" id="add-bookmark" hidden>
+					<h2>Add a new bookmark</h2>
+					<label for="title">Give a title to your bookmark</label>
+					<input type="text" name="title" id="title" required />
+					<label for="url">Add the link</label>
+					<input type="url" name="url" id="url" required />
+					<label for="description">Write a short description</label>
+					<textarea
+						name="description"
+						id="description"
+						required
+					></textarea>
+					<button type="submit" id="submit-bookmark">
+						Add Bookmark
+					</button>
+				</form>
+			</section>
 			<section id="bookmarks"></section>
 		</main>
 	</body>
