@@ -1,0 +1,11 @@
+{
+	"name": "project-shared-bookmarks",
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"test": "node --test"
+	},
+	"dependencies": {
+		"http-server": "^14.1.1"
+	}
+}
