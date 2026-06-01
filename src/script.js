@@ -4,7 +4,11 @@
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
 
-import { getUserIds, getData } from "./storage.js";
+import { getUserIds, getData, setData } from "./storage.js";
+
+const state = {
+	selectedUserId: null,
+};
 
 // to avoid having to pass DOM elements between functions, we can access them once in window.onload and save them in this elements object. This way they will be accessible everywhere in the code.
 const elements = {
@@ -13,6 +17,7 @@ const elements = {
 	titleInput: null,
 	urlInput: null,
 	descriptionInput: null,
+	statusMessage: "",
 };
 
 window.onload = function () {
@@ -24,16 +29,13 @@ window.onload = function () {
 	elements.titleInput = document.getElementById("title");
 	elements.urlInput = document.getElementById("url");
 	elements.descriptionInput = document.getElementById("description");
+	elements.statusMessage = document.getElementById("status-message");
+
+	elements.statusMessage.textContent = "Please Select a User";
 
 	populateUserDropdown(users);
 
 	elements.userSelect.addEventListener("change", handleUserChange);
-
-	elements.titleInput.value = "";
-	elements.urlInput.value = "";
-	elements.descriptionInput.value = "";
-
-	elements.bookmarkForm.addEventListener("submit", submitBookmark);
 };
 
 function populateUserDropdown(users) {
@@ -46,18 +48,25 @@ function populateUserDropdown(users) {
 }
 
 function handleUserChange(event) {
-	const userId = event.target.value;
+	state.selectedUserId = event.target.value;
 
 	const statusMessage = document.getElementById("status-message");
 
-	if (!userId) return;
+	if (!state.selectedUserId || state.selectedUserId === null) return;
+
+	elements.titleInput.value = "";
+	elements.urlInput.value = "";
+	elements.descriptionInput.value = "";
 
 	elements.bookmarkForm.hidden = false;
 
-	const bookmarks = getData(userId);
+	elements.bookmarkForm.addEventListener("submit", submitBookmark);
 
-	if (!bookmarks || bookmarks.length === 0) {
-		statusMessage.textContent = `No bookmarks yet for User ${userId}`;
+	const bookmarks = getData(state.selectedUserId);
+	console.log(bookmarks);
+
+	if (!bookmarks || bookmarks.length === 0 || bookmarks === null) {
+		elements.statusMessage.textContent = `No bookmarks yet for User ${state.selectedUserId}`;
 	} else {
 		statusMessage.textContent = "";
 	}
