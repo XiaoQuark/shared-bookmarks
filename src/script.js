@@ -63,11 +63,7 @@ function handleUserChange(event) {
 
 	const bookmarks = getData(state.selectedUserId);
 
-	if (!bookmarks || bookmarks.length === 0) {
-		elements.statusMessage.textContent = `No bookmarks yet for User ${state.selectedUserId}`;
-	} else {
-		statusMessage.textContent = "";
-	}
+	renderBookmarks(state.selectedUserId)
 }
 function submitBookmark(event) {
 	event.preventDefault();
@@ -85,6 +81,7 @@ function submitBookmark(event) {
 	elements.titleInput.value = "";
 	elements.urlInput.value = "";
 	elements.descriptionInput.value = "";
+  renderBookmarks(state.selectedUserId);
 }
 
 function createNewBookmark(bookmarkData) {
@@ -118,4 +115,18 @@ function createBookmarkCard (bookmark) {
   card.appendChild(description);
   card.appendChild(timeStamp);
   return card;
+}
+
+function renderBookmarks (userId) {
+  const bookmarks = getData (userId);
+  element.bookmarkList.textContent = "";
+  if (!bookmarks || bookmarks.length === 0) {
+    elements.statusMessage.textContent = `No bookmarks yet for User ${userId}`;
+    return;
+  }
+  elements.statusMessage.textContent =  "";
+  for (bookmark of bookmarks) {
+    const newCard =createBookmarkCard(bookmark);
+    elements.bookmarkList.appendChild(newCard);
+  }
 }
