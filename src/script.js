@@ -18,6 +18,7 @@ const elements = {
 	urlInput: null,
 	descriptionInput: null,
 	statusMessage: "",
+	bookmarkList: null,
 };
 
 window.onload = function () {
@@ -30,6 +31,7 @@ window.onload = function () {
 	elements.urlInput = document.getElementById("url");
 	elements.descriptionInput = document.getElementById("description");
 	elements.statusMessage = document.getElementById("status-message");
+	elements.bookmarkList = document.getElementById("bookmarks");
 
 	elements.statusMessage.textContent = "Please Select a User";
 
@@ -63,11 +65,7 @@ function handleUserChange(event) {
 
 	const bookmarks = getData(state.selectedUserId);
 
-	if (!bookmarks || bookmarks.length === 0) {
-		elements.statusMessage.textContent = `No bookmarks yet for User ${state.selectedUserId}`;
-	} else {
-		statusMessage.textContent = "";
-	}
+	renderBookmarks(state.selectedUserId)
 }
 function submitBookmark(event) {
 	event.preventDefault();
@@ -85,6 +83,8 @@ function submitBookmark(event) {
 	elements.titleInput.value = "";
 	elements.urlInput.value = "";
 	elements.descriptionInput.value = "";
+
+  renderBookmarks(state.selectedUserId);
 }
 
 function createNewBookmark(bookmarkData) {
@@ -103,4 +103,33 @@ function addBookmarkToUser(newBookmark) {
 	const updatedBookmarks = [...existingBookmarks, newBookmark];
 
 	setData(state.selectedUserId, updatedBookmarks);
+}
+// create helper createBookmarkCard function
+function createBookmarkCard (bookmark) {
+  const card = document.createElement("article");
+  const titleLink = document.createElement("a");
+  titleLink.href = bookmark.url;
+  titleLink.textContent = bookmark.title;
+  const description = document.createElement("p");
+  description.textContent = bookmark.description;
+  const timeStamp = document.createElement("p");
+  timeStamp.textContent = bookmark.createdAt;
+  card.appendChild(titleLink);
+  card.appendChild(description);
+  card.appendChild(timeStamp);
+  return card;
+}
+
+function renderBookmarks (userId) {
+  const bookmarks = getData (userId);
+  elements.bookmarkList.textContent = "";
+  if (!bookmarks || bookmarks.length === 0) {
+    elements.statusMessage.textContent = `No bookmarks yet for User ${userId}`;
+    return;
+  }
+  elements.statusMessage.textContent =  "";
+  for (const bookmark of bookmarks) {
+    const newCard =createBookmarkCard(bookmark);
+    elements.bookmarkList.appendChild(newCard);
+  }
 }
