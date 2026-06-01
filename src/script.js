@@ -128,6 +128,11 @@ function renderBookmarks (userId) {
     return;
   }
   elements.statusMessage.textContent =  "";
+  bookmarks.sort((a,b) => {
+	if (b.createdAt > a.createdAt) return 1;
+	if (b.createdAt < a.createdAt) return -1;
+	return 0;
+  })
   for (const bookmark of bookmarks) {
     const newCard =createBookmarkCard(bookmark);
     elements.bookmarkList.appendChild(newCard);
