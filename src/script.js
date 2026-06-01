@@ -36,6 +36,7 @@ window.onload = function () {
 	populateUserDropdown(users);
 
 	elements.userSelect.addEventListener("change", handleUserChange);
+	elements.bookmarkForm.addEventListener("submit", submitBookmark);
 };
 
 function populateUserDropdown(users) {
@@ -60,12 +61,10 @@ function handleUserChange(event) {
 
 	elements.bookmarkForm.hidden = false;
 
-	elements.bookmarkForm.addEventListener("submit", submitBookmark);
-
 	const bookmarks = getData(state.selectedUserId);
-	console.log(bookmarks);
+	console.log(bookmarks, "list");
 
-	if (!bookmarks || bookmarks.length === 0 || bookmarks === null) {
+	if (!bookmarks || bookmarks.length === 0) {
 		elements.statusMessage.textContent = `No bookmarks yet for User ${state.selectedUserId}`;
 	} else {
 		statusMessage.textContent = "";
@@ -74,8 +73,15 @@ function handleUserChange(event) {
 function submitBookmark(event) {
 	event.preventDefault();
 
+	if (!state.selectedUserId) {
+		elements.statusMessage.textContent =
+			"Please select a user before adding a bookmark";
+		return;
+	}
+
 	const bookmarkData = new FormData(elements.bookmarkForm);
 	const newBookmark = createNewBookmark(bookmarkData);
+	addBookmarkToUser(newBookmark);
 
 	elements.titleInput.value = "";
 	elements.urlInput.value = "";
@@ -93,10 +99,9 @@ function createNewBookmark(bookmarkData) {
 	return bookmark;
 }
 
-function addBookmarkToUser(bookmark) {
-	const userBookmarks = [];
-	if (getData(elements.selectedUserId) === null) {
-		userBookmarks.push(bookmark);
-	}
-	setData(elements.selectedUserId, userBookmarks);
+function addBookmarkToUser(newBookmark) {
+	const existingBookmarks = getData(state.selectedUserId) || [];
+	const updatedBookmarks = [...existingBookmarks, newBookmark];
+
+	setData(state.selectedUserId, updatedBookmarks);
 }
