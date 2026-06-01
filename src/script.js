@@ -11,7 +11,7 @@ window.onload = function () {
   populateUserDropdown(users);
 };
 
-function populateUserDropdown() {
+function populateUserDropdown(users) {
   const userSelect = document.getElementById("user-select");
 
   for (const user of users) {
