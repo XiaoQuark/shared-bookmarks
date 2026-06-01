@@ -4,7 +4,43 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<script type="module" src="src/script.js"></script>
-		<title>Document</title>
+		<title>Shared Bookmarks Project</title>
 	</head>
-	<body></body>
+	<body>
+		<header>
+			<h1>ShareMarks</h1>
+			<p>Share your bookmarks</p>
+			<section id="user-select-container">
+				<label for="user-select"
+					>Select a User to see their bookmarks</label
+				>
+				<select name="user-select" id="user-select">
+					<option value="">Select a user...</option>
+				</select>
+			</section>
+		</header>
+		<main>
+			<p id="status-message" aria-live="polite">Please Select a User</p>
+
+			<section id="bookmark-form">
+				<form action="" id="add-bookmark" hidden>
+					<h2>Add a new bookmark</h2>
+					<label for="title">Give a title to your bookmark</label>
+					<input type="text" name="title" id="title" required />
+					<label for="url">Add the link</label>
+					<input type="url" name="url" id="url" required />
+					<label for="description">Write a short description</label>
+					<textarea
+						name="description"
+						id="description"
+						required
+					></textarea>
+					<button type="submit" id="submit-bookmark">
+						Add Bookmark
+					</button>
+				</form>
+			</section>
+			<section id="bookmarks"></section>
+		</main>
+	</body>
 </html>
