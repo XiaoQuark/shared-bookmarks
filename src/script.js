@@ -7,13 +7,17 @@
 import { getUserIds } from "./storage.js";
 
 window.onload = function () {
-	const users = getUserIds();
-	const userSelect = document.getElementById("user-select");
-
-	for (const user of users) {
-		const option = document.createElement("option");
-		option.value = user;
-		option.textContent = `User ${user}`;
-		userSelect.appendChild(option);
-	}
+  const users = getUserIds();
+  populateUserDropdown(users);
 };
+
+function populateUserDropdown() {
+  const userSelect = document.getElementById("user-select");
+
+  for (const user of users) {
+    const option = document.createElement("option");
+    option.value = user;
+    option.textContent = `User ${user}`;
+    userSelect.appendChild(option);
+  }
+}
