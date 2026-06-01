@@ -104,3 +104,18 @@ function addBookmarkToUser(newBookmark) {
 
 	setData(state.selectedUserId, updatedBookmarks);
 }
+// create helper createBookmarkCard function
+function createBookmarkCard (bookmark) {
+  const card = document.createElement("article");
+  const titleLink = document.createElement("a");
+  titleLink.href = bookmark.url;
+  titleLink.textContent = bookmark.title;
+  const description = document.createElement("p");
+  description.textContent = bookmark.description;
+  const timeStamp = document.createElement("p");
+  timeStamp.textContent = bookmark.createdAt;
+  card.appendChild(titleLink);
+  card.appendChild(description);
+  card.appendChild(timeStamp);
+  return card;
+}
