@@ -6,32 +6,53 @@
 
 import { getUserIds, getData } from "./storage.js";
 
+// to avoid having to pass DOM elements between functions, we can access them once in window.onload and save them in this elements object. This way they will be accessible everywhere in the code.
+const elements = {
+	userSelect: null,
+	bookmarkForm: null,
+	titleInput: null,
+	urlInput: null,
+	descriptionInput: null,
+};
+
 window.onload = function () {
-  const users = getUserIds();
-  populateUserDropdown(users);
-  const userSelect = document.getElementById("user-select");
-  userSelect.addEventListener("change", handleUserChange)
+	const users = getUserIds();
+
+	// accessing DOM and saving everything in elements object
+	elements.userSelect = document.getElementById("user-select");
+	elements.bookmarkForm = document.getElementById("add-bookmark");
+	elements.titleInput = document.getElementById("title");
+	elements.urlInput = document.getElementById("url");
+	elements.descriptionInput = document.getElementById("description");
+
+	populateUserDropdown(users);
+
+	elements.userSelect.addEventListener("change", handleUserChange);
+
+	elements.titleInput.value = "";
+	elements.urlInput.value = "";
+	elements.descriptionInput.value = "";
+
+	elements.bookmarkForm.addEventListener("submit", submitBookmark);
 };
 
 function populateUserDropdown(users) {
-  const userSelect = document.getElementById("user-select");
-
-  for (const user of users) {
-    const option = document.createElement("option");
-    option.value = user;
-    option.textContent = `User ${user}`;
-    userSelect.appendChild(option);
-  }
+	for (const user of users) {
+		const option = document.createElement("option");
+		option.value = user;
+		option.textContent = `User ${user}`;
+		elements.userSelect.appendChild(option);
+	}
 }
 
-function handleUserChange (event) {
+function handleUserChange(event) {
 	const userId = event.target.value;
-	const form = document.getElementById("add-bookmark");
+
 	const statusMessage = document.getElementById("status-message");
 
-	if(!userId) return;
+	if (!userId) return;
 
-	form.hidden = false;
+	elements.bookmarkForm.hidden = false;
 
 	const bookmarks = getData(userId);
 
@@ -40,4 +61,26 @@ function handleUserChange (event) {
 	} else {
 		statusMessage.textContent = "";
 	}
+}
+function submitBookmark(event) {
+	event.preventDefault();
+
+	const bookmarkData = new FormData(elements.bookmarkForm);
+	const newBookmark = createNewBookmark(bookmarkData);
+	console.log(newBookmark);
+
+	elements.titleInput.value = "";
+	elements.urlInput.value = "";
+	elements.descriptionInput.value = "";
+}
+
+function createNewBookmark(bookmarkData) {
+	const bookmark = {};
+	bookmark.id = crypto.randomUUID();
+	bookmark.title = bookmarkData.get("title");
+	bookmark.url = bookmarkData.get("url");
+	bookmark.description = bookmarkData.get("description");
+	bookmark.createdAt = new Date().toISOString();
+	bookmark.likes = 0;
+	return bookmark;
 }
