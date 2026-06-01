@@ -7,6 +7,10 @@
 import { getUserIds } from "./storage.js";
 
 window.onload = function () {
+	populateUserDropdown();
+}
+
+function populateUserDropdown() {
 	const users = getUserIds();
 	const userSelect = document.getElementById("user-select");
 
