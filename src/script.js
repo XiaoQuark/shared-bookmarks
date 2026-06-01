@@ -18,6 +18,7 @@ const elements = {
 	urlInput: null,
 	descriptionInput: null,
 	statusMessage: "",
+	bookmarkList: null,
 };
 
 window.onload = function () {
@@ -30,6 +31,7 @@ window.onload = function () {
 	elements.urlInput = document.getElementById("url");
 	elements.descriptionInput = document.getElementById("description");
 	elements.statusMessage = document.getElementById("status-message");
+	elements.bookmarkList = document.getElementById("bookmarks");
 
 	elements.statusMessage.textContent = "Please Select a User";
 
@@ -81,6 +83,7 @@ function submitBookmark(event) {
 	elements.titleInput.value = "";
 	elements.urlInput.value = "";
 	elements.descriptionInput.value = "";
+
   renderBookmarks(state.selectedUserId);
 }
 
@@ -119,13 +122,13 @@ function createBookmarkCard (bookmark) {
 
 function renderBookmarks (userId) {
   const bookmarks = getData (userId);
-  element.bookmarkList.textContent = "";
+  elements.bookmarkList.textContent = "";
   if (!bookmarks || bookmarks.length === 0) {
     elements.statusMessage.textContent = `No bookmarks yet for User ${userId}`;
     return;
   }
   elements.statusMessage.textContent =  "";
-  for (bookmark of bookmarks) {
+  for (const bookmark of bookmarks) {
     const newCard =createBookmarkCard(bookmark);
     elements.bookmarkList.appendChild(newCard);
   }
