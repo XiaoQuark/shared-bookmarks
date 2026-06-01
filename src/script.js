@@ -62,7 +62,6 @@ function handleUserChange(event) {
 	elements.bookmarkForm.hidden = false;
 
 	const bookmarks = getData(state.selectedUserId);
-	console.log(bookmarks, "list");
 
 	if (!bookmarks || bookmarks.length === 0) {
 		elements.statusMessage.textContent = `No bookmarks yet for User ${state.selectedUserId}`;
