@@ -24,7 +24,7 @@ function populateUserDropdown(users) {
   }
 }
 
-function handleUserChange () {
+function handleUserChange (event) {
 	const userId = event.target.value;
 	const form = document.getElementById("add-bookmark");
 	const statusMessage = document.getElementById("status-message");
