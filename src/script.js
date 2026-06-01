@@ -4,7 +4,7 @@
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
 
-import { getUserIds, getData, setData } from "./storage.js";
+import { getUserIds, getData, setData, clearData } from "./storage.js";
 
 const state = {
 	selectedUserId: null,
@@ -76,7 +76,6 @@ function submitBookmark(event) {
 
 	const bookmarkData = new FormData(elements.bookmarkForm);
 	const newBookmark = createNewBookmark(bookmarkData);
-	console.log(newBookmark);
 
 	elements.titleInput.value = "";
 	elements.urlInput.value = "";
@@ -92,4 +91,12 @@ function createNewBookmark(bookmarkData) {
 	bookmark.createdAt = new Date().toISOString();
 	bookmark.likes = 0;
 	return bookmark;
+}
+
+function addBookmarkToUser(bookmark) {
+	const userBookmarks = [];
+	if (getData(elements.selectedUserId) === null) {
+		userBookmarks.push(bookmark);
+	}
+	setData(elements.selectedUserId, userBookmarks);
 }
