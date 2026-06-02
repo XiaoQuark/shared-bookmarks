@@ -111,9 +111,10 @@ function createCopyButton(bookmark) {
   copyButton.addEventListener("click", () => {
     navigator.clipboard.writeText(bookmark.url);
   });
+  return copyButton;
 }
-  
-function createLikeButton (bookmark) {
+
+function createLikeButton(bookmark) {
   const likeButton = document.createElement("button");
   likeButton.textContent = `👍 ${bookmark.likes}`;
   likeButton.addEventListener("click", () => {
@@ -123,6 +124,7 @@ function createLikeButton (bookmark) {
     setData(state.selectedUserId, bookmarks);
     likeButton.textContent = `👍 ${likedBookmark.likes}`;
   });
+  return likeButton;
 }
 
 // create helper createBookmarkCard function
@@ -138,10 +140,8 @@ function createBookmarkCard(bookmark) {
   card.appendChild(titleLink);
   card.appendChild(description);
   card.appendChild(timeStamp);
-  card.appendChild(copyButton);
-  card.appendChild(likeButton);
-  card.appendChild(createCopyButton(bookmark))
-  card.appendChild(createLikeButton(bookmark))
+  card.appendChild(createCopyButton(bookmark));
+  card.appendChild(createLikeButton(bookmark));
   return card;
 }
 
