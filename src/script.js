@@ -128,7 +128,12 @@ function renderBookmarks (userId) {
     return;
   }
   elements.statusMessage.textContent =  "";
-  for (const bookmark of bookmarks) {
+  const sortedBookmarks = bookmarks.toSorted((a,b) => {
+	if (b.createdAt > a.createdAt) return 1;
+	if (b.createdAt < a.createdAt) return -1;
+	return 0;
+  })
+  for (const bookmark of sortedBookmarks) {
     const newCard =createBookmarkCard(bookmark);
     elements.bookmarkList.appendChild(newCard);
   }
