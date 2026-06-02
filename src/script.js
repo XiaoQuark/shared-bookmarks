@@ -152,14 +152,14 @@ function renderBookmarks(userId) {
     elements.statusMessage.textContent = `No bookmarks yet for User ${userId}`;
     return;
   }
-  elements.statusMessage.textContent = "";
-  bookmarks.sort((a, b) => {
-    if (b.createdAt > a.createdAt) return 1;
-    if (b.createdAt < a.createdAt) return -1;
-    return 0;
-  });
-  for (const bookmark of bookmarks) {
-    const newCard = createBookmarkCard(bookmark);
+  elements.statusMessage.textContent =  "";
+  const sortedBookmarks = bookmarks.toSorted((a,b) => {
+	if (b.createdAt > a.createdAt) return 1;
+	if (b.createdAt < a.createdAt) return -1;
+	return 0;
+  })
+  for (const bookmark of sortedBookmarks) {
+    const newCard =createBookmarkCard(bookmark);
     elements.bookmarkList.appendChild(newCard);
   }
 }
