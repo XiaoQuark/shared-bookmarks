@@ -104,6 +104,27 @@ function addBookmarkToUser(newBookmark) {
 
   setData(state.selectedUserId, updatedBookmarks);
 }
+
+function createCopyButton(bookmark) {
+  const copyButton = document.createElement("button");
+  copyButton.textContent = "copy to clipBoard";
+  copyButton.addEventListener("click", () => {
+    navigator.clipboard.writeText(bookmark.url);
+  });
+}
+  
+function createLikeButton (bookmark) {
+  const likeButton = document.createElement("button");
+  likeButton.textContent = `👍 ${bookmark.likes}`;
+  likeButton.addEventListener("click", () => {
+    const bookmarks = getData(state.selectedUserId);
+    const likedBookmark = bookmarks.find((b) => b.id === bookmark.id);
+    likedBookmark.likes++;
+    setData(state.selectedUserId, bookmarks);
+    likeButton.textContent = `👍 ${likedBookmark.likes}`;
+  });
+}
+
 // create helper createBookmarkCard function
 function createBookmarkCard(bookmark) {
   const card = document.createElement("article");
@@ -114,25 +135,13 @@ function createBookmarkCard(bookmark) {
   description.textContent = bookmark.description;
   const timeStamp = document.createElement("p");
   timeStamp.textContent = bookmark.createdAt;
-  const copyButton = document.createElement("button");
-  copyButton.textContent = "copy to clipBoard";
-  copyButton.addEventListener("click", () => {
-    navigator.clipboard.writeText(bookmark.url);
-  });
-  const likeButton = document.createElement("button");
-  likeButton.textContent = `👍 ${bookmark.likes}`;
-  likeButton.addEventListener("click", () => {
-    const bookmarks = getData(state.selectedUserId);
-    const likedBookmark = bookmarks.find((b) => b.id === bookmark.id);
-    likedBookmark.likes++;
-    setData(state.selectedUserId, bookmarks);
-    likeButton.textContent = `👍 ${likedBookmark.likes}`;
-  });
   card.appendChild(titleLink);
   card.appendChild(description);
   card.appendChild(timeStamp);
   card.appendChild(copyButton);
   card.appendChild(likeButton);
+  card.appendChild(createCopyButton(bookmark))
+  card.appendChild(createLikeButton(bookmark))
   return card;
 }
 
