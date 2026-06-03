@@ -32,6 +32,10 @@ main {
 	gap: 10px;
 }
 
+[hidden] {
+	display: none !important;
+}
+
 label {
 	margin-top: 10px;
 }
