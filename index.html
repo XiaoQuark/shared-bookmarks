@@ -44,6 +44,24 @@
 				</form>
 			</section>
 			<section id="bookmarks"></section>
+			<template id="bookmark-template">
+				<article id="bookmark-card">
+					<div class="bookmark-heading">
+						<a bookmark-title class="bookmark-title" href=""
+							>Title</a
+						>
+						<button copy-link class="copy-link">Copy Link</button>
+					</div>
+					<p created-at class="created-at"></p>
+					<p bookmark-description class="bookmark-description">
+						Description
+					</p>
+					<div class="likes-region">
+						<p likes-counter class="likes-counter">Likes</p>
+						<button like-button class="like-button">👍</button>
+					</div>
+				</article>
+			</template>
 		</main>
 	</body>
 </html>
