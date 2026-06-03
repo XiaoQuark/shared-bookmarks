@@ -55,8 +55,6 @@ function populateUserDropdown(users) {
 function handleUserChange(event) {
 	state.selectedUserId = event.target.value;
 
-	const statusMessage = document.getElementById("status-message");
-
 	if (!state.selectedUserId || state.selectedUserId === null) return;
 
 	elements.titleInput.value = "";
@@ -116,8 +114,17 @@ function handleLikes(bookmark, likesCounter) {
 	const likedBookmark = bookmarks.find((b) => b.id === bookmark.id);
 	likedBookmark.likes++;
 	setData(state.selectedUserId, bookmarks);
-	likesCounter.textContent = `${likedBookmark.likes}`;
+	likesCounter.textContent = `${likedBookmark.likes} Likes`;
 	return likesCounter;
+}
+
+function formatDate(date) {
+	const options = {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	};
+	return new Date(date).toLocaleDateString(undefined, options);
 }
 
 // create helper createBookmarkCard function
@@ -129,9 +136,11 @@ function createBookmarkCard(bookmark) {
 	template.querySelector("[bookmark-title]").href = bookmark.url;
 	template.querySelector("[bookmark-description]").textContent =
 		bookmark.description;
-	template.querySelector("[created-at]").textContent = bookmark.createdAt;
+	template.querySelector("[created-at]").textContent = formatDate(
+		bookmark.createdAt,
+	);
 	const likesCounter = template.querySelector("[likes-counter]");
-	likesCounter.textContent = `${bookmark.likes}`;
+	likesCounter.textContent = `${bookmark.likes} Likes`;
 	template
 		.querySelector("[copy-link]")
 		.addEventListener("click", () => handleCopy(bookmark));
@@ -143,12 +152,13 @@ function createBookmarkCard(bookmark) {
 
 function renderBookmarks(userId) {
 	const bookmarks = getData(userId);
+	elements.statusMessage.hidden = false;
 	elements.bookmarkList.textContent = "";
 	if (!bookmarks || bookmarks.length === 0) {
 		elements.statusMessage.textContent = `No bookmarks yet for User ${userId}`;
 		return;
 	}
-	elements.statusMessage.textContent = "";
+	elements.statusMessage.hidden = true;
 	const sortedBookmarks = bookmarks.toSorted((a, b) => {
 		if (b.createdAt > a.createdAt) return 1;
 		if (b.createdAt < a.createdAt) return -1;
