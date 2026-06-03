@@ -47,3 +47,37 @@ input {
 textarea {
 	min-height: 100px;
 }
+
+article {
+	display: flex;
+	flex-direction: column;
+	width: 60ch;
+	border-bottom: 1px dashed black;
+	padding: 10px;
+	text-align: start;
+}
+
+.bookmark-heading {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.bookmark-title {
+	font-size: 1.2rem;
+	font-weight: 600;
+}
+
+.copy-link {
+	padding: 5px 10px;
+}
+
+.meta-info {
+	display: flex;
+	justify-content: space-between;
+}
+
+.likes-region {
+	display: flex;
+	gap: 10px;
+}
