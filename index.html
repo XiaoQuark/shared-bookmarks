@@ -4,12 +4,15 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<script type="module" src="src/script.js"></script>
+		<link rel="stylesheet" href="style.css" />
 		<title>Shared Bookmarks Project</title>
 	</head>
 	<body>
 		<header>
-			<h1>ShareMarks</h1>
-			<p>Share your bookmarks</p>
+			<div>
+				<h1>ShareMarks</h1>
+				<p>Share your bookmarks</p>
+			</div>
 			<section id="user-select-container">
 				<label for="user-select"
 					>Select a User to see their bookmarks</label
@@ -41,6 +44,46 @@
 				</form>
 			</section>
 			<section id="bookmarks"></section>
+			<template id="bookmark-template">
+				<article id="bookmark-card">
+					<div class="bookmark-heading">
+						<a bookmark-title class="bookmark-title" href=""
+							>Title</a
+						>
+						<button copy-link class="copy-link">
+							Copy Link
+							<span tooltip class="tooltip">Copy Link</span>
+						</button>
+					</div>
+					<span
+						copy-feedback
+						aria-live="polite"
+						class="sr-only"
+					></span>
+					<p bookmark-description class="bookmark-description">
+						Description
+					</p>
+					<div class="meta-info">
+						<p created-at class="created-at"></p>
+						<div class="likes-region">
+							<p
+								likes-counter
+								class="likes-counter"
+								aria-live="polite"
+							>
+								Likes
+							</p>
+							<button
+								like-button
+								class="like-button"
+								aria-label="Add a like"
+							>
+								👍
+							</button>
+						</div>
+					</div>
+				</article>
+			</template>
 		</main>
 	</body>
 </html>

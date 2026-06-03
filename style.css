@@ -1,0 +1,126 @@
+body {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+#user-select-container {
+	margin-top: 20px;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+#status-message {
+	padding: 30px 80px;
+	font-size: 1.3rem;
+	font-weight: 600;
+}
+
+#add-bookmark {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding-top: 30px;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+label {
+	margin-top: 10px;
+}
+
+input {
+	height: 1.5rem;
+}
+
+textarea {
+	min-height: 100px;
+}
+
+#submit-bookmark {
+	padding: 10px;
+}
+
+#bookmarks {
+	padding-top: 30px;
+}
+
+article {
+	display: flex;
+	flex-direction: column;
+	width: 60ch;
+	border-bottom: 1px dashed black;
+	padding: 10px;
+	text-align: start;
+}
+
+.bookmark-heading {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.bookmark-title {
+	font-size: 1.2rem;
+	font-weight: 600;
+}
+
+.copy-link {
+	padding: 5px 10px;
+	position: relative;
+}
+
+.copy-link .tooltip {
+	visibility: hidden;
+	min-width: max-content;
+	width: fit-content;
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	border-radius: 4px;
+	padding: 6px;
+	position: absolute;
+	z-index: 1;
+	bottom: 105%;
+	/* left: 50%; */
+	margin-left: -30px;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.copy-link:hover .tooltip,
+.copy-link:focus-visible .tooltip {
+	visibility: visible;
+	opacity: 1;
+}
+
+.sr-only {
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.meta-info {
+	display: flex;
+	justify-content: space-between;
+}
+
+.likes-region {
+	display: flex;
+	gap: 10px;
+}
