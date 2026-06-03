@@ -1,0 +1,45 @@
+body {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+#user-select-container {
+	margin-top: 20px;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+#status-message {
+	padding: 50px 80px;
+	font-size: 1.3rem;
+	font-weight: 600;
+}
+
+#add-bookmark {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+label {
+	margin-top: 10px;
+}
+
+input {
+	height: 1.5rem;
+}
+
+textarea {
+	min-height: 100px;
+}
