@@ -107,31 +107,9 @@ function addBookmarkToUser(newBookmark) {
 	setData(state.selectedUserId, updatedBookmarks);
 }
 
-// function createCopyButton(bookmark) {
-// 	const copyButton = document.createElement("button");
-// 	copyButton.textContent = "copy to clipBoard";
-// 	copyButton.addEventListener("click", () => {
-// 		navigator.clipboard.writeText(bookmark.url);
-// 	});
-// 	return copyButton;
-// }
-
 function handleCopy(bookmark) {
 	navigator.clipboard.writeText(bookmark.url);
 }
-
-// function createLikeButton(bookmark) {
-// 	const likeButton = document.createElement("button");
-// 	likeButton.textContent = `👍 ${bookmark.likes}`;
-// 	likeButton.addEventListener("click", () => {
-// 		const bookmarks = getData(state.selectedUserId);
-// 		const likedBookmark = bookmarks.find((b) => b.id === bookmark.id);
-// 		likedBookmark.likes++;
-// 		setData(state.selectedUserId, bookmarks);
-// 		likeButton.textContent = `👍 ${likedBookmark.likes}`;
-// 	});
-// 	return likeButton;
-// }
 
 function handleLikes(bookmark, likesCounter) {
 	const bookmarks = getData(state.selectedUserId);
@@ -146,11 +124,8 @@ function handleLikes(bookmark, likesCounter) {
 function createBookmarkCard(bookmark) {
 	const template = elements.bookmarkTemplate.content.cloneNode(true);
 	const card = template.querySelector("article");
-	console.log(card);
 	card.id = bookmark.id;
-	console.log(template.querySelector("[bookmark-title]"));
 	template.querySelector("[bookmark-title]").textContent = bookmark.title;
-	console.log(template.querySelector("[bookmark-title]"));
 	template.querySelector("[bookmark-title]").href = bookmark.url;
 	template.querySelector("[bookmark-description]").textContent =
 		bookmark.description;
