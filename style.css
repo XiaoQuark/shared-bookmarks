@@ -21,7 +21,7 @@ main {
 }
 
 #status-message {
-	padding: 50px 80px;
+	padding: 30px 80px;
 	font-size: 1.3rem;
 	font-weight: 600;
 }
@@ -30,6 +30,7 @@ main {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	padding-top: 30px;
 }
 
 [hidden] {
@@ -46,6 +47,14 @@ input {
 
 textarea {
 	min-height: 100px;
+}
+
+#submit-bookmark {
+	padding: 10px;
+}
+
+#bookmarks {
+	padding-top: 30px;
 }
 
 article {
