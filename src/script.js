@@ -156,12 +156,13 @@ function createBookmarkCard(bookmark) {
 		bookmark.description;
 	template.querySelector("[created-at]").textContent = bookmark.createdAt;
 	const likesCounter = template.querySelector("[likes-counter]");
+	likesCounter.textContent = `${bookmark.likes}`;
 	template
 		.querySelector("[copy-link]")
-		.addEventListener("click", handleCopy(bookmark));
+		.addEventListener("click", () => handleCopy(bookmark));
 	template
 		.querySelector("[like-button]")
-		.addEventListener("click", handleLikes(bookmark, likesCounter));
+		.addEventListener("click", () => handleLikes(bookmark, likesCounter));
 	return template;
 }
 
