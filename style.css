@@ -79,6 +79,40 @@ article {
 
 .copy-link {
 	padding: 5px 10px;
+	position: relative;
+}
+
+.copy-link .tooltip {
+	visibility: hidden;
+	min-width: max-content;
+	width: fit-content;
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	border-radius: 4px;
+	padding: 6px;
+	position: absolute;
+	z-index: 1;
+	bottom: 105%;
+	/* left: 50%; */
+	margin-left: -30px;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.copy-link:hover .tooltip,
+.copy-link:focus-visible .tooltip {
+	visibility: visible;
+	opacity: 1;
+}
+
+.sr-only {
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
 }
 
 .meta-info {

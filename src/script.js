@@ -4,7 +4,7 @@
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
 
-import { getUserIds, getData, setData, clearData } from "./storage.js";
+import { getUserIds, getData, setData } from "./storage.js";
 
 const state = {
 	selectedUserId: null,
@@ -105,8 +105,14 @@ function addBookmarkToUser(newBookmark) {
 	setData(state.selectedUserId, updatedBookmarks);
 }
 
-function handleCopy(bookmark) {
+function handleCopy(bookmark, tooltip, copyFeedback) {
 	navigator.clipboard.writeText(bookmark.url);
+	tooltip.textContent = "Link Copied!";
+	copyFeedback.textContent = "Link copied to Clipboard";
+	setTimeout(() => {
+		tooltip.textContent = "Copy Link";
+		copyFeedback.textContent = "";
+	}, 2000);
 }
 
 function handleLikes(bookmark, likesCounter) {
@@ -141,9 +147,13 @@ function createBookmarkCard(bookmark) {
 	);
 	const likesCounter = template.querySelector("[likes-counter]");
 	likesCounter.textContent = `${bookmark.likes} Likes`;
+	const tooltip = template.querySelector("[tooltip]");
+	const copyFeedback = template.querySelector("[copy-feedback]");
 	template
 		.querySelector("[copy-link]")
-		.addEventListener("click", () => handleCopy(bookmark));
+		.addEventListener("click", () =>
+			handleCopy(bookmark, tooltip, copyFeedback),
+		);
 	template
 		.querySelector("[like-button]")
 		.addEventListener("click", () => handleLikes(bookmark, likesCounter));
