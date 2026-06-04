@@ -5,177 +5,186 @@
 // You can't open the index.html file using a file:// URL.
 
 import { getUserIds, getData, setData } from "./storage.js";
+import { validateBookmark } from "./validate.js";
 
 const state = {
-	selectedUserId: null,
+  selectedUserId: null,
 };
 
 // to avoid having to pass DOM elements between functions, we can access them once in window.onload and save them in this elements object. This way they will be accessible everywhere in the code.
 const elements = {
-	userSelect: null,
-	bookmarkForm: null,
-	titleInput: null,
-	urlInput: null,
-	descriptionInput: null,
-	statusMessage: "",
-	bookmarkList: null,
-	bookmarkTemplate: null,
+  userSelect: null,
+  bookmarkForm: null,
+  titleInput: null,
+  urlInput: null,
+  descriptionInput: null,
+  statusMessage: "",
+  bookmarkList: null,
+  bookmarkTemplate: null,
 };
 
 window.onload = function () {
-	const users = getUserIds();
+  const users = getUserIds();
 
-	// accessing DOM and saving everything in elements object
-	elements.userSelect = document.getElementById("user-select");
-	elements.bookmarkForm = document.getElementById("add-bookmark");
-	elements.titleInput = document.getElementById("title");
-	elements.urlInput = document.getElementById("url");
-	elements.descriptionInput = document.getElementById("description");
-	elements.statusMessage = document.getElementById("status-message");
-	elements.bookmarkList = document.getElementById("bookmarks");
-	elements.bookmarkTemplate = document.getElementById("bookmark-template");
+  // accessing DOM and saving everything in elements object
+  elements.userSelect = document.getElementById("user-select");
+  elements.bookmarkForm = document.getElementById("add-bookmark");
+  elements.titleInput = document.getElementById("title");
+  elements.urlInput = document.getElementById("url");
+  elements.descriptionInput = document.getElementById("description");
+  elements.statusMessage = document.getElementById("status-message");
+  elements.bookmarkList = document.getElementById("bookmarks");
+  elements.bookmarkTemplate = document.getElementById("bookmark-template");
 
-	elements.statusMessage.textContent = "Please Select a User";
+  elements.statusMessage.textContent = "Please Select a User";
 
-	populateUserDropdown(users);
+  populateUserDropdown(users);
 
-	elements.userSelect.addEventListener("change", handleUserChange);
-	elements.bookmarkForm.addEventListener("submit", submitBookmark);
+  elements.userSelect.addEventListener("change", handleUserChange);
+  elements.bookmarkForm.addEventListener("submit", submitBookmark);
 };
 
 function populateUserDropdown(users) {
-	for (const user of users) {
-		const option = document.createElement("option");
-		option.value = user;
-		option.textContent = `User ${user}`;
-		elements.userSelect.appendChild(option);
-	}
+  for (const user of users) {
+    const option = document.createElement("option");
+    option.value = user;
+    option.textContent = `User ${user}`;
+    elements.userSelect.appendChild(option);
+  }
 }
 
 function handleUserChange(event) {
-	state.selectedUserId = event.target.value;
+  state.selectedUserId = event.target.value;
 
-	if (!state.selectedUserId || state.selectedUserId === null) return;
+  if (!state.selectedUserId || state.selectedUserId === null) return;
 
-	elements.titleInput.value = "";
-	elements.urlInput.value = "";
-	elements.descriptionInput.value = "";
+  elements.titleInput.value = "";
+  elements.urlInput.value = "";
+  elements.descriptionInput.value = "";
 
-	elements.bookmarkForm.hidden = false;
+  elements.bookmarkForm.hidden = false;
 
-	const bookmarks = getData(state.selectedUserId);
+  const bookmarks = getData(state.selectedUserId);
 
-	renderBookmarks(state.selectedUserId);
+  renderBookmarks(state.selectedUserId);
 }
 function submitBookmark(event) {
-	event.preventDefault();
+  event.preventDefault();
 
-	if (!state.selectedUserId) {
-		elements.statusMessage.textContent =
-			"Please select a user before adding a bookmark";
-		return;
-	}
+  if (!state.selectedUserId) {
+    elements.statusMessage.textContent =
+      "Please select a user before adding a bookmark";
+    return;
+  }
 
-	const bookmarkData = new FormData(elements.bookmarkForm);
-	const newBookmark = createNewBookmark(bookmarkData);
-	addBookmarkToUser(newBookmark);
+  const bookmarkData = new FormData(elements.bookmarkForm);
+  const existingBookmarks = getData(state.selectedUserId) || [];
+  const error = validateBookmark(bookmarkData.get("url"), existingBookmarks);
+  if (error) {
+    elements.statusMessage.hidden = false;
+    elements.statusMessage.textContent = error;
+    return;
+  }
 
-	elements.titleInput.value = "";
-	elements.urlInput.value = "";
-	elements.descriptionInput.value = "";
+  const newBookmark = createNewBookmark(bookmarkData);
+  addBookmarkToUser(newBookmark);
 
-	renderBookmarks(state.selectedUserId);
+  elements.titleInput.value = "";
+  elements.urlInput.value = "";
+  elements.descriptionInput.value = "";
+
+  renderBookmarks(state.selectedUserId);
 }
 
 function createNewBookmark(bookmarkData) {
-	const bookmark = {};
-	bookmark.id = crypto.randomUUID();
-	bookmark.title = bookmarkData.get("title");
-	bookmark.url = bookmarkData.get("url");
-	bookmark.description = bookmarkData.get("description");
-	bookmark.createdAt = new Date().toISOString();
-	bookmark.likes = 0;
-	return bookmark;
+  const bookmark = {};
+  bookmark.id = crypto.randomUUID();
+  bookmark.title = bookmarkData.get("title");
+  bookmark.url = bookmarkData.get("url");
+  bookmark.description = bookmarkData.get("description");
+  bookmark.createdAt = new Date().toISOString();
+  bookmark.likes = 0;
+  return bookmark;
 }
 
 function addBookmarkToUser(newBookmark) {
-	const existingBookmarks = getData(state.selectedUserId) || [];
-	const updatedBookmarks = [...existingBookmarks, newBookmark];
+  const existingBookmarks = getData(state.selectedUserId) || [];
+  const updatedBookmarks = [...existingBookmarks, newBookmark];
 
-	setData(state.selectedUserId, updatedBookmarks);
+  setData(state.selectedUserId, updatedBookmarks);
 }
 
 function handleCopy(bookmark, tooltip, copyFeedback) {
-	navigator.clipboard.writeText(bookmark.url);
-	tooltip.textContent = "Link Copied!";
-	copyFeedback.textContent = "Link copied to Clipboard";
-	setTimeout(() => {
-		tooltip.textContent = "Copy Link";
-		copyFeedback.textContent = "";
-	}, 2000);
+  navigator.clipboard.writeText(bookmark.url);
+  tooltip.textContent = "Link Copied!";
+  copyFeedback.textContent = "Link copied to Clipboard";
+  setTimeout(() => {
+    tooltip.textContent = "Copy Link";
+    copyFeedback.textContent = "";
+  }, 2000);
 }
 
 function handleLikes(bookmark, likesCounter) {
-	const bookmarks = getData(state.selectedUserId);
-	const likedBookmark = bookmarks.find((b) => b.id === bookmark.id);
-	likedBookmark.likes++;
-	setData(state.selectedUserId, bookmarks);
-	likesCounter.textContent = `${likedBookmark.likes} Likes`;
-	return likesCounter;
+  const bookmarks = getData(state.selectedUserId);
+  const likedBookmark = bookmarks.find((b) => b.id === bookmark.id);
+  likedBookmark.likes++;
+  setData(state.selectedUserId, bookmarks);
+  likesCounter.textContent = `${likedBookmark.likes} Likes`;
+  return likesCounter;
 }
 
 function formatDate(date) {
-	const options = {
-		year: "numeric",
-		month: "long",
-		day: "numeric",
-	};
-	return new Date(date).toLocaleDateString(undefined, options);
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return new Date(date).toLocaleDateString(undefined, options);
 }
 
 // create helper createBookmarkCard function
 function createBookmarkCard(bookmark) {
-	const template = elements.bookmarkTemplate.content.cloneNode(true);
-	const card = template.querySelector("article");
-	card.id = bookmark.id;
-	template.querySelector("[bookmark-title]").textContent = bookmark.title;
-	template.querySelector("[bookmark-title]").href = bookmark.url;
-	template.querySelector("[bookmark-description]").textContent =
-		bookmark.description;
-	template.querySelector("[created-at]").textContent = formatDate(
-		bookmark.createdAt,
-	);
-	const likesCounter = template.querySelector("[likes-counter]");
-	likesCounter.textContent = `${bookmark.likes} Likes`;
-	const tooltip = template.querySelector("[tooltip]");
-	const copyFeedback = template.querySelector("[copy-feedback]");
-	template
-		.querySelector("[copy-link]")
-		.addEventListener("click", () =>
-			handleCopy(bookmark, tooltip, copyFeedback),
-		);
-	template
-		.querySelector("[like-button]")
-		.addEventListener("click", () => handleLikes(bookmark, likesCounter));
-	return template;
+  const template = elements.bookmarkTemplate.content.cloneNode(true);
+  const card = template.querySelector("article");
+  card.id = bookmark.id;
+  template.querySelector("[bookmark-title]").textContent = bookmark.title;
+  template.querySelector("[bookmark-title]").href = bookmark.url;
+  template.querySelector("[bookmark-description]").textContent =
+    bookmark.description;
+  template.querySelector("[created-at]").textContent = formatDate(
+    bookmark.createdAt,
+  );
+  const likesCounter = template.querySelector("[likes-counter]");
+  likesCounter.textContent = `${bookmark.likes} Likes`;
+  const tooltip = template.querySelector("[tooltip]");
+  const copyFeedback = template.querySelector("[copy-feedback]");
+  template
+    .querySelector("[copy-link]")
+    .addEventListener("click", () =>
+      handleCopy(bookmark, tooltip, copyFeedback),
+    );
+  template
+    .querySelector("[like-button]")
+    .addEventListener("click", () => handleLikes(bookmark, likesCounter));
+  return template;
 }
 
 function renderBookmarks(userId) {
-	const bookmarks = getData(userId);
-	elements.statusMessage.hidden = false;
-	elements.bookmarkList.textContent = "";
-	if (!bookmarks || bookmarks.length === 0) {
-		elements.statusMessage.textContent = `No bookmarks yet for User ${userId}`;
-		return;
-	}
-	elements.statusMessage.hidden = true;
-	const sortedBookmarks = bookmarks.toSorted((a, b) => {
-		if (b.createdAt > a.createdAt) return 1;
-		if (b.createdAt < a.createdAt) return -1;
-		return 0;
-	});
-	for (const bookmark of sortedBookmarks) {
-		const newCard = createBookmarkCard(bookmark);
-		elements.bookmarkList.appendChild(newCard);
-	}
+  const bookmarks = getData(userId);
+  elements.statusMessage.hidden = false;
+  elements.bookmarkList.textContent = "";
+  if (!bookmarks || bookmarks.length === 0) {
+    elements.statusMessage.textContent = `No bookmarks yet for User ${userId}`;
+    return;
+  }
+  elements.statusMessage.hidden = true;
+  const sortedBookmarks = bookmarks.toSorted((a, b) => {
+    if (b.createdAt > a.createdAt) return 1;
+    if (b.createdAt < a.createdAt) return -1;
+    return 0;
+  });
+  for (const bookmark of sortedBookmarks) {
+    const newCard = createBookmarkCard(bookmark);
+    elements.bookmarkList.appendChild(newCard);
+  }
 }
