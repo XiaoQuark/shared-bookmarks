@@ -6,7 +6,6 @@
 
 body {
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	width: 100vw;
 }
 
 header {
@@ -69,7 +68,6 @@ main {
 
 aside {
 	position: sticky;
-	right: 10%;
 	padding-top: 1.5rem;
 }
 
@@ -77,7 +75,6 @@ aside {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-	/* padding-top: 30px; */
 }
 
 [hidden] {
@@ -96,14 +93,13 @@ textarea {
 	min-height: 100px;
 }
 
-.form-error {
+#form-error {
 	color: maroon;
 }
 
 #submit-bookmark {
 	margin-top: 15px;
 	font-size: 1.3rem;
-
 	padding: 0.5rem;
 }
 
@@ -153,7 +149,6 @@ article {
 	position: absolute;
 	z-index: 1;
 	bottom: 105%;
-	/* left: 50%; */
 	margin-left: -30px;
 	opacity: 0;
 	transition: opacity 0.3s;
