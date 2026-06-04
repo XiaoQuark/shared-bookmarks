@@ -1,36 +1,83 @@
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
 body {
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	width: 100vw;
 }
 
 header {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	justify-content: space-between;
 	align-items: center;
-	text-align: center;
+	flex-wrap: wrap;
+	padding: 2% 10%;
+	position: sticky;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 9;
+	border-bottom: 1.5px solid slategray;
+	background-color: #fff;
 }
 
-#user-select-container {
-	margin-top: 20px;
+.user-select-container {
+	display: flex;
+	flex-direction: column;
+	align-items: end;
+	justify-content: space-between;
+	gap: 1rem;
+	text-align: end;
+}
+
+select {
+	font-size: 1.1rem;
+	padding: 0.2rem;
 }
 
 main {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	text-align: center;
+	padding: 2% 10%;
 }
 
 #status-message {
-	padding: 30px 80px;
 	font-size: 1.3rem;
 	font-weight: 600;
+	padding-top: 1.5rem;
+	text-align: center;
+}
+
+.content-layout {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap-reverse;
+}
+
+.left-column {
+	width: 100%;
+	max-width: 60ch;
+}
+
+aside {
+	position: sticky;
+	right: 10%;
+	padding-top: 1.5rem;
 }
 
 #add-bookmark {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-	padding-top: 30px;
+	/* padding-top: 30px; */
 }
 
 [hidden] {
@@ -49,36 +96,44 @@ textarea {
 	min-height: 100px;
 }
 
-#submit-bookmark {
-	padding: 10px;
+.form-error {
+	color: maroon;
 }
 
-#bookmarks {
-	padding-top: 30px;
+#submit-bookmark {
+	margin-top: 15px;
+	font-size: 1.3rem;
+
+	padding: 0.5rem;
 }
 
 article {
 	display: flex;
 	flex-direction: column;
-	width: 60ch;
+	flex-wrap: wrap;
+	max-width: 60ch;
+	width: 100%;
 	border-bottom: 1px dashed black;
-	padding: 10px;
+	padding: 1.5rem 1rem 2.5rem 1rem;
 	text-align: start;
 }
 
 .bookmark-heading {
 	width: 100%;
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
+	margin-bottom: 1rem;
 }
 
 .bookmark-title {
 	font-size: 1.2rem;
 	font-weight: 600;
+	margin-bottom: 0.5rem;
 }
 
 .bookmark-description {
-    white-space: pre-wrap;
+	white-space: pre-wrap;
 }
 
 .copy-link {
@@ -120,11 +175,21 @@ article {
 }
 
 .meta-info {
+	margin-top: 1rem;
+	height: fit-content;
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
+	align-items: center;
 }
 
 .likes-region {
 	display: flex;
+	align-items: center;
 	gap: 10px;
+}
+
+.like-button {
+	font-size: 1.2rem;
+	padding: 0.2rem;
 }

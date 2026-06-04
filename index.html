@@ -9,41 +9,46 @@
 	</head>
 	<body>
 		<header>
-			<div>
+			<div class="title-container">
 				<h1>ShareMarks</h1>
 				<p>Share your bookmarks</p>
 			</div>
-			<section id="user-select-container">
-				<label for="user-select"
-					>Select a User to see their bookmarks</label
-				>
+			<div class="user-select-container">
+				<label for="user-select">Select a User</label>
 				<select name="user-select" id="user-select">
 					<option value="">Select a user...</option>
 				</select>
-			</section>
+			</div>
 		</header>
 		<main>
-			<p id="status-message" aria-live="polite"></p>
+			<div class="content-layout">
+				<div class="left-column">
+					<p id="status-message" aria-live="polite"></p>
+					<section id="bookmarks"></section>
+				</div>
 
-			<section id="bookmark-form">
-				<form action="" id="add-bookmark" hidden>
-					<h2>Add a new bookmark</h2>
-					<label for="title">Give a title to your bookmark</label>
-					<input type="text" name="title" id="title" required />
-					<label for="url">Add the link</label>
-					<input type="url" name="url" id="url" required />
-					<label for="description">Write a short description</label>
-					<textarea
-						name="description"
-						id="description"
-						required
-					></textarea>
-					<button type="submit" id="submit-bookmark">
-						Add Bookmark
-					</button>
-				</form>
-			</section>
-			<section id="bookmarks"></section>
+				<aside id="bookmark-form">
+					<form action="" id="add-bookmark" hidden>
+						<h2>Add a new bookmark</h2>
+						<label for="title">Give a title to your bookmark</label>
+						<input type="text" name="title" id="title" required />
+						<label for="url">Add the link</label>
+						<input type="url" name="url" id="url" required />
+						<label for="description"
+							>Write a short description</label
+						>
+						<textarea
+							name="description"
+							id="description"
+							required
+						></textarea>
+						<button type="submit" id="submit-bookmark">
+							Add Bookmark
+						</button>
+						<p id="form-error" aria-live="polite" hidden></p>
+					</form>
+				</aside>
+			</div>
 			<template id="bookmark-template">
 				<article id="bookmark-card">
 					<div class="bookmark-heading">

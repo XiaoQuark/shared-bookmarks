@@ -20,6 +20,7 @@ const elements = {
 	statusMessage: "",
 	bookmarkList: null,
 	bookmarkTemplate: null,
+	formError: "",
 };
 
 window.onload = function () {
@@ -30,6 +31,7 @@ window.onload = function () {
 	elements.titleInput = document.getElementById("title");
 	elements.urlInput = document.getElementById("url");
 	elements.descriptionInput = document.getElementById("description");
+	elements.formError = document.getElementById("form-error");
 	elements.statusMessage = document.getElementById("status-message");
 	elements.bookmarkList = document.getElementById("bookmarks");
 	elements.bookmarkTemplate = document.getElementById("bookmark-template");
@@ -89,8 +91,8 @@ function submitBookmark(event) {
 
 	const error = validateBookmark(bookmarkData.get("url"), state.bookmarks);
 	if (error) {
-		elements.statusMessage.hidden = false;
-		elements.statusMessage.textContent = error;
+		elements.formError.hidden = false;
+		elements.formError.textContent = error;
 		return;
 	}
 
@@ -114,7 +116,9 @@ function handleCopy(bookmark) {
 }
 
 function handleLikes(bookmark) {
-	state.bookmarks = state.bookmarks.map((b) => b.id === bookmark.id ? {...b, likes: b.likes + 1} : b);
+	state.bookmarks = state.bookmarks.map((b) =>
+		b.id === bookmark.id ? { ...b, likes: b.likes + 1 } : b,
+	);
 	setData(state.selectedUserId, state.bookmarks);
 	const likedBookmark = state.bookmarks.find((b) => b.id === bookmark.id);
 	return likedBookmark.likes;
