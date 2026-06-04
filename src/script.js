@@ -5,6 +5,11 @@
 // You can't open the index.html file using a file:// URL.
 
 import { getUserIds, getData, setData } from "./storage.js";
+import {
+	createNewBookmark,
+	formatDate,
+	sortBookmarksByNewest,
+} from "./utils.js";
 import { validateBookmark } from "./validate.js";
 
 const state = {
@@ -105,17 +110,6 @@ function submitBookmark(event) {
 	renderBookmarks(state.selectedUserId);
 }
 
-function createNewBookmark(bookmarkData) {
-	const bookmark = {};
-	bookmark.id = crypto.randomUUID();
-	bookmark.title = bookmarkData.get("title");
-	bookmark.url = bookmarkData.get("url");
-	bookmark.description = bookmarkData.get("description");
-	bookmark.createdAt = new Date().toISOString();
-	bookmark.likes = 0;
-	return bookmark;
-}
-
 function addBookmarkToUser(newBookmark) {
 	state.bookmarks = [...state.bookmarks, newBookmark];
 	setData(state.selectedUserId, state.bookmarks);
@@ -130,15 +124,6 @@ function handleLikes(bookmark) {
 	likedBookmark.likes++;
 	setData(state.selectedUserId, state.bookmarks);
 	return likedBookmark.likes;
-}
-
-function formatDate(date) {
-	const options = {
-		year: "numeric",
-		month: "long",
-		day: "numeric",
-	};
-	return new Date(date).toLocaleDateString(undefined, options);
 }
 
 // create helper createBookmarkCard function
@@ -181,11 +166,7 @@ function renderBookmarks(userId) {
 		return;
 	}
 	elements.statusMessage.hidden = true;
-	const sortedBookmarks = state.bookmarks.toSorted((a, b) => {
-		if (b.createdAt > a.createdAt) return 1;
-		if (b.createdAt < a.createdAt) return -1;
-		return 0;
-	});
+	const sortedBookmarks = sortBookmarksByNewest(state.bookmarks);
 	for (const bookmark of sortedBookmarks) {
 		const newCard = createBookmarkCard(bookmark);
 		elements.bookmarkList.appendChild(newCard);
