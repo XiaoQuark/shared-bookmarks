@@ -121,22 +121,15 @@ function addBookmarkToUser(newBookmark) {
 	setData(state.selectedUserId, state.bookmarks);
 }
 
-function handleCopy(bookmark, tooltip, copyFeedback) {
+function handleCopy(bookmark) {
 	navigator.clipboard.writeText(bookmark.url);
-	tooltip.textContent = "Link Copied!";
-	copyFeedback.textContent = "Link copied to Clipboard";
-	setTimeout(() => {
-		tooltip.textContent = "Copy Link";
-		copyFeedback.textContent = "";
-	}, 2000);
 }
 
-function handleLikes(bookmark, likesCounter) {
+function handleLikes(bookmark) {
 	const likedBookmark = state.bookmarks.find((b) => b.id === bookmark.id);
 	likedBookmark.likes++;
 	setData(state.selectedUserId, state.bookmarks);
-	likesCounter.textContent = `${likedBookmark.likes} Likes`;
-	return likesCounter;
+	return likedBookmark.likes;
 }
 
 function formatDate(date) {
@@ -164,14 +157,19 @@ function createBookmarkCard(bookmark) {
 	likesCounter.textContent = `${bookmark.likes} Likes`;
 	const tooltip = template.querySelector("[tooltip]");
 	const copyFeedback = template.querySelector("[copy-feedback]");
-	template
-		.querySelector("[copy-link]")
-		.addEventListener("click", () =>
-			handleCopy(bookmark, tooltip, copyFeedback),
-		);
-	template
-		.querySelector("[like-button]")
-		.addEventListener("click", () => handleLikes(bookmark, likesCounter));
+	template.querySelector("[copy-link]").addEventListener("click", () => {
+		handleCopy(bookmark);
+		tooltip.textContent = "Link Copied!";
+		copyFeedback.textContent = "Link copied to Clipboard";
+		setTimeout(() => {
+			tooltip.textContent = "Copy Link";
+			copyFeedback.textContent = "";
+		}, 2000);
+	});
+	template.querySelector("[like-button]").addEventListener("click", () => {
+		const newLikes = handleLikes(bookmark);
+		likesCounter.textContent = `${newLikes} Likes`;
+	});
 	return template;
 }
 
