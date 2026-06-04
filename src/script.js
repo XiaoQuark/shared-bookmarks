@@ -145,7 +145,7 @@ function createBookmarkCard(bookmark) {
 	template.querySelector("[copy-link]").addEventListener("click", () => {
 		handleCopy(bookmark);
 		tooltip.textContent = "Link Copied!";
-		copyFeedback.textContent = "Link copied to Clipboard";
+		copyFeedback.textContent = "Link copied to clipboard";
 		setTimeout(() => {
 			tooltip.textContent = "Copy Link";
 			copyFeedback.textContent = "";
