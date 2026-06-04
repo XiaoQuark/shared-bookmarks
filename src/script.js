@@ -5,6 +5,7 @@
 // You can't open the index.html file using a file:// URL.
 
 import { getUserIds, getData, setData } from "./storage.js";
+import { validateBookmark } from "./validate.js";
 
 const state = {
   selectedUserId: null,
@@ -111,19 +112,6 @@ function addBookmarkToUser(newBookmark) {
   const updatedBookmarks = [...existingBookmarks, newBookmark];
 
   setData(state.selectedUserId, updatedBookmarks);
-}
-
-function validateBookmark(url, existingBookmarks) {
-  try {
-    new URL(url);
-  } catch {
-    return "Invalid URL";
-  }
-  const isDuplicate = existingBookmarks.some((b) => b.url === url);
-  if (isDuplicate) {
-    return "URL already exists for this user";
-  }
-  return null;
 }
 
 function handleCopy(bookmark, tooltip, copyFeedback) {
