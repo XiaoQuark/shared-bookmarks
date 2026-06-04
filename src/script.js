@@ -120,9 +120,9 @@ function handleCopy(bookmark) {
 }
 
 function handleLikes(bookmark) {
-	const likedBookmark = state.bookmarks.find((b) => b.id === bookmark.id);
-	likedBookmark.likes++;
+	state.bookmarks = state.bookmarks.map((b) => b.id === bookmark.id ? {...b, likes: b.likes + 1} : b);
 	setData(state.selectedUserId, state.bookmarks);
+	const likedBookmark = state.bookmarks.find((b) => b.id === bookmark.id);
 	return likedBookmark.likes;
 }
 
