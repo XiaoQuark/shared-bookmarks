@@ -4,13 +4,13 @@ import { validateBookmark } from "../src/validate.js";
 import { sortBookmarksByNewest } from "../src/utils.js";
 
 // validateBookmark tests
-test("Valid URL returns null", () => {
+test("validateBookmark returns null for a valid URL that does not already exist", () => {
 	assert.equal(validateBookmark("https://codeyourfuture.io/", []), null);
 });
-test("Invalid URL", () => {
+test("validateBookmark returns 'Invalid URL' for an invalid URL", () => {
 	assert.equal(validateBookmark("codeyourfuture/io", []), "Invalid URL");
 });
-test("duplicate URL", () => {
+test("validateBookmark returns an error when the URL already exists for the user", () => {
 	const existing = [{ url: "https://developer.mozilla.org/en-US/" }];
 	assert.equal(
 		validateBookmark("https://developer.mozilla.org/en-US/", existing),
