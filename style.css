@@ -77,6 +77,10 @@ article {
 	font-weight: 600;
 }
 
+.bookmark-description {
+    white-space: pre-wrap;
+}
+
 .copy-link {
 	padding: 5px 10px;
 	position: relative;
