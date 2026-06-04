@@ -56,7 +56,15 @@ function populateUserDropdown(users) {
 function handleUserChange(event) {
 	state.selectedUserId = event.target.value;
 
-	if (!state.selectedUserId || state.selectedUserId === null) return;
+	if (!state.selectedUserId || state.selectedUserId === null) {
+		state.bookmarks = [];
+		elements.bookmarkForm.hidden = true;
+		elements.bookmarkList.textContent = "";
+		elements.statusMessage.hidden = false;
+		elements.statusMessage.textContent =
+			"Please Select a User to see their bookmarks";
+		return;
+	}
 
 	elements.titleInput.value = "";
 	elements.urlInput.value = "";
