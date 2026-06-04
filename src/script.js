@@ -9,6 +9,7 @@ import { validateBookmark } from "./validate.js";
 
 const state = {
   selectedUserId: null,
+  bookmarks: [],
 };
 
 // to avoid having to pass DOM elements between functions, we can access them once in window.onload and save them in this elements object. This way they will be accessible everywhere in the code.
@@ -64,7 +65,7 @@ function handleUserChange(event) {
 
   elements.bookmarkForm.hidden = false;
 
-  const bookmarks = getData(state.selectedUserId);
+  state.bookmarks = getData(state.selectedUserId) || [];
 
   renderBookmarks(state.selectedUserId);
 }
@@ -78,7 +79,7 @@ function submitBookmark(event) {
   }
 
   const bookmarkData = new FormData(elements.bookmarkForm);
-  const existingBookmarks = getData(state.selectedUserId) || [];
+  const existingBookmarks = state.bookmarks;
   const error = validateBookmark(bookmarkData.get("url"), existingBookmarks);
   if (error) {
     elements.statusMessage.hidden = false;
@@ -108,8 +109,8 @@ function createNewBookmark(bookmarkData) {
 }
 
 function addBookmarkToUser(newBookmark) {
-  const existingBookmarks = getData(state.selectedUserId) || [];
-  const updatedBookmarks = [...existingBookmarks, newBookmark];
+  const updatedBookmarks = [...state.bookmarks, newBookmark];
+  state.Bookmarks = updatedBookmarks;
 
   setData(state.selectedUserId, updatedBookmarks);
 }
@@ -125,10 +126,9 @@ function handleCopy(bookmark, tooltip, copyFeedback) {
 }
 
 function handleLikes(bookmark, likesCounter) {
-  const bookmarks = getData(state.selectedUserId);
-  const likedBookmark = bookmarks.find((b) => b.id === bookmark.id);
+  const likedBookmark = state.bookmarks.find((b) => b.id === bookmark.id);
   likedBookmark.likes++;
-  setData(state.selectedUserId, bookmarks);
+  setData(state.selectedUserId, state.bookmarks);
   likesCounter.textContent = `${likedBookmark.likes} Likes`;
   return likesCounter;
 }
@@ -169,16 +169,15 @@ function createBookmarkCard(bookmark) {
   return template;
 }
 
-function renderBookmarks(userId) {
-  const bookmarks = getData(userId);
+function renderBookmarks() {
   elements.statusMessage.hidden = false;
   elements.bookmarkList.textContent = "";
-  if (!bookmarks || bookmarks.length === 0) {
+  if (!state.bookmarks || state.bookmarks.length === 0) {
     elements.statusMessage.textContent = `No bookmarks yet for User ${userId}`;
     return;
   }
   elements.statusMessage.hidden = true;
-  const sortedBookmarks = bookmarks.toSorted((a, b) => {
+  const sortedBookmarks = state.bookmarks.toSorted((a, b) => {
     if (b.createdAt > a.createdAt) return 1;
     if (b.createdAt < a.createdAt) return -1;
     return 0;
