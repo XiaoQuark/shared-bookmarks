@@ -4,7 +4,6 @@
 
 - Verified that the dropdown contains five user options, one for each available user.
 - Confirmed that all users can be selected in the browser.
-- Confirmed that five users are returned by `getUserIds()` using the supplied `example.test.js` test.
 
 ## Selecting a user must display the list of bookmarks for the relevant user
 

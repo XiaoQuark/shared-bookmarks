@@ -56,24 +56,19 @@ A successful test run should display a passing result in the terminal.
 shared-bookmarks/
 ├── src/
 │   ├── script.js
-│   └── storage.js
+│   ├── storage.js
+│   ├── utils.js
+│   └── validate.js
 ├── tests/
-│   └── example.test.js
+│   └── script.test.js
 ├── .gitignore
 ├── index.html
 ├── package-lock.json
 ├── package.json
-└── README.md
+├── README.md
+├── style.css
+└── TESTING.md
 ```
-
-## Current Progress
-
-The initial project setup has been completed.
-
-- Folder structure organised
-- Node.js test runner configured
-- Example test passing
-- Local development environment configured
 
 ## Team
 

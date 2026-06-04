@@ -60,6 +60,8 @@ function handleUserChange(event) {
 	if (!state.selectedUserId || state.selectedUserId === null) {
 		state.bookmarks = [];
 		elements.bookmarkForm.hidden = true;
+		elements.formError.hidden = true;
+		elements.formError.textContent = "";
 		elements.bookmarkList.textContent = "";
 		elements.statusMessage.hidden = false;
 		elements.statusMessage.textContent =
@@ -70,6 +72,9 @@ function handleUserChange(event) {
 	elements.titleInput.value = "";
 	elements.urlInput.value = "";
 	elements.descriptionInput.value = "";
+
+	elements.formError.hidden = true;
+	elements.formError.textContent = "";
 
 	elements.bookmarkForm.hidden = false;
 
@@ -95,6 +100,9 @@ function submitBookmark(event) {
 		elements.formError.textContent = error;
 		return;
 	}
+
+	elements.formError.hidden = true;
+	elements.formError.textContent = "";
 
 	const newBookmark = createNewBookmark(bookmarkData);
 	addBookmarkToUser(newBookmark);
@@ -124,7 +132,6 @@ function handleLikes(bookmark) {
 	return likedBookmark.likes;
 }
 
-// create helper createBookmarkCard function
 function createBookmarkCard(bookmark) {
 	const template = elements.bookmarkTemplate.content.cloneNode(true);
 	const card = template.querySelector("article");

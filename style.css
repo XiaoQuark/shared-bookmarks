@@ -58,6 +58,7 @@ main {
 	width: 100%;
 	display: flex;
 	justify-content: space-around;
+	align-items: flex-start;
 	flex-wrap: wrap-reverse;
 }
 
@@ -66,9 +67,12 @@ main {
 	max-width: 60ch;
 }
 
-aside {
+#bookmark-form {
 	position: sticky;
+	top: 10rem;
+	align-self: flex-end;
 	padding-top: 1.5rem;
+	margin-bottom: 5rem;
 }
 
 #add-bookmark {
@@ -103,7 +107,7 @@ textarea {
 	padding: 0.5rem;
 }
 
-article {
+.bookmark-card {
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
