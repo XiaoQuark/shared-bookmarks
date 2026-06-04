@@ -96,6 +96,10 @@ textarea {
 	min-height: 100px;
 }
 
+.form-error {
+	color: maroon;
+}
+
 #submit-bookmark {
 	margin-top: 15px;
 	font-size: 1.3rem;
