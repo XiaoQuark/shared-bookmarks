@@ -22,10 +22,7 @@
 
 - Created multiple bookmarks in succession and confirmed that the newest bookmark appears first in the list.
 - Compared bookmark timestamps to verify the order is newest to oldest.
-
-### Pending:
-
-- Unit tests in `script.test.js`.
+- Unit tests in `script.test.js` verify that `sortBookmarksByNewest()` returns bookmarks in reverse chronological order and does not mutate the original array.
 
 ## Each bookmark has a title, description and created at timestamp displayed
 
@@ -53,7 +50,7 @@
 ## The website must contain a form with inputs for a URL, a title, and a description. The form should have a submit button
 
 - Verified that the form contains a text input for title.
-- Verified that the form contains a URL input for URL.
+- Verified that the form contains a URL input for the bookmark URL.
 - Verified that the form contains a textarea field for description.
 - Verified that the form contains a button of type submit.
 - Confirmed that all fields are displayed correctly in the browser.
@@ -89,7 +86,4 @@
 
 - Unit tests were written in `script.test.js`.
 - Tests verify bookmark validation and duplicate URL prevention.
-
-### Pending:
-
 - Additional tests verify bookmark sorting behaviour.
